@@ -32,4 +32,8 @@
 //   });
 // }
 
-it(`passess`, () => {});
+it(`passess`, async () => {
+  return await function test() {
+    return 2 + 2 === 4;
+  };
+});
