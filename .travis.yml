@@ -1,0 +1,28 @@
+language: node_js
+node_js:
+  - "8"
+dist: trusty
+sudo: false
+branches:
+  only:
+    - master
+before_install:
+  - mkdir $HOME/.now
+  - echo "{\"token\":\"$NOW_TOKEN\"}" > $HOME/.now/auth.json
+install:
+  - "yarn --prefer-offline"
+cache:
+  directories:
+    - .yarn-local-mirror
+email:
+  on_failure: change
+  on_success: never
+deploy:
+  provider: npm
+  email:
+    secure: "em5ARl3YwIuZfJ3f78ty5h5AfW/N1OkQmEa+yr70LV8LOI1MjSnTWHqA1ZiL/H8tzTTkKWBOr75Vrp4yzhuwuCQZ1U4VvDDrtw65zCnXFX++CdXvsEgaGWlSfYvBuJFjOtAPwiOnTarUdb97VPmTh73tyeCBiln3svOVAtHxUds9toYVznjn152y/3fJTlaLEZpbV9/10CDJfclzgkCicD11KhGaREfx/M6ADW0/XclQBgTi1FIclyjK/jFW4c0yfZ+8+1z5uOspQakwsRvNiH5LHr8/2aGXFBXg6JLH7g23PTEHZaFGRcCQYeh/Vyza3TsHbsQeINT2Hr/zAx7aaTEydpCNgE0TuoSfaUKvq1Bf/DubU+/MVFFWqVXTXqCAYthSIJVeUrY/mrSjXTOm02DerfkX7YewxF3OqLVgPcgQf5EeT6uTvlEJkAbtljHyENFWvULx8sz8SSA6SF00f5zFLsxQVY7YB0KwF84tG8dKlOSEhNNfb//M+qF0HuoOitZvxuXFcruCU3EUtFWIZVDHx2or1T1JSts0VBM5bGYS03tC0jVwfQVPh6HJhKAOLe4xl/YO7YD5wGp2g4KLW4yOG5JdzEAwXcmbTJ2SVHsD3WXPUYKaQqYS4mm5Guof0DCSSGTXaYnTzO4SgqKp41GyP2wajfuCe/FO7zIwZ5I="
+  api_key:
+    secure: "TE0uez+1E3q2RNlyqLJvdt3N5xR9FkElk4gMvKnDzPltxYcwMcKQ2m7XcOczYHV9gdcNxDTI/V7gymfkV35GNP5KFE0AZW9YdvIAxeAxTFoAg54j4b4wN6bTxfFGwVXPXBpUm7+GyPB9HJS2pI48m4gUpI4bcFsMwtY8CBGJlIOfOi9K2arjH0hbdalRFzmilwZnmDb8yTjkxrX0MbWXQ1NwH0yKDiU7NDLppSkJ2kWaaWDJZQv5xIYjFv7rdLOnXzv0B+iB3vm2tKxZN1eLlKSblqvCXe+EMf7i+sw7awalmBJjdjz6iK4EqQoyGSGgWHIgEzb5c6EzDjO7/XLMctTYfC/tHxUR7ti+4/gvR4CRA4IG/mC8D5HxwBD+/sjVB9IRlocCKAbPehOp0wWORNr5ra4fXcix0jBp5y12+WHT1jn3ZsPRv538dwhgAu221hw+YJE/2h0il3NGElalceXIbX25+0lkO7QRcPTwOZ+kEejQ9syrutfg7dEPHeHMfq9k/x+FbxzeICzojVYdE0TMJADGbl6X+Pd8ZpqDVJT4gTAs7sFJ/kXlIJos2bu2GhhEyEAawxfF7Cp86SsIJIojUhbzIiTn81PePmimn9OUfdqsHmTwlf4fsdevQYPLRJrctiqvRvMtfVFQa47NuJFbkh3I+z87qlm2CoePKFw="
+  on:
+    branch: master
+repo: pckilgore/now-builder-s3

@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "build": {
+    "env": {
+      "TF_VAR_AWS_ACCESS_KEY_ID": "@fake_access_key",
+      "TF_VAR_AWS_SECRET_ACCESS_KEY": "@fake_secret_key",
+      "TF_VAR_REGION": "us-east-2",
+      "AWS_ACCESS_KEY_ID": "@fake_access_key",
+      "AWS_SECRET_ACCESS_KEY": "@fake_secret_key"
+    }
+  },
+  "builds": [{ "src": "index.js", "use": "@pckilgore/now-builder-s3" }]
+}
