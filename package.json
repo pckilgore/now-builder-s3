@@ -10,6 +10,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "src/index.js"
+  ],
   "scripts": {
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint-fix": "yarn run lint --fix",
