@@ -31,3 +31,5 @@
 //     ).resolves.toBeDefined();
 //   });
 // }
+
+it(`passess`, () => true);
