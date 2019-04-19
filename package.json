@@ -1,6 +1,6 @@
 {
   "name": "@pckilgore/now-builder-s3",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A now.sh builder that uploads arbitrary things to arbitrary S3 buckets.",
   "main": "src/index.js",
   "repository": "github.com/pckilgore/now-builder-s3",
