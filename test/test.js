@@ -32,4 +32,4 @@
 //   });
 // }
 
-it(`passess`, () => true);
+it(`passess`, () => {});
