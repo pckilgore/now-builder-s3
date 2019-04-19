@@ -7,6 +7,9 @@
   "author": "Patrick C. Kilgore <git@pck.email>",
   "license": "MIT",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint-fix": "yarn run lint --fix",
