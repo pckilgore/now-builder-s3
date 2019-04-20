@@ -79,6 +79,8 @@ async function bucketAvailable(s3, params) {
         `Attempt ${attempts} to contact S3 bucket at ${new Date().toLocaleString()}...`
       );
       s3.headBucket(params, (err, data) => {
+        console.log("Error", err);
+        console.log("data", data);
         if (operation.retry(err)) return;
         if (err) reject(operation.mainError());
         resolve(data);

@@ -11,7 +11,7 @@
     {
       "src": "index.js",
       "use": "@pckilgore/now-builder-s3",
-      "config": { "bucket": "http://now-builder-s3-test.s3.amazonaws.com" }
+      "config": { "Bucket": "now-builder-s3-test" }
     }
   ]
 }
