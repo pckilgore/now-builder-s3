@@ -24,7 +24,7 @@ exports.build = async ({ config = {}, entrypoint, files, workPath }) => {
   const region = config.region || process.env.AWS_REGION;
   const s3 = new AWS.S3({ apiVersion: "2006-03-01", region });
   const params = { Bucket: config.Bucket };
-
+  console.log("Booting...", region, params);
   try {
     // Wait for the bucket to be available.
     // Allows time for a new bucket to be created if necessary
@@ -69,11 +69,15 @@ exports.build = async ({ config = {}, entrypoint, files, workPath }) => {
  * @param {*} params
  */
 async function bucketAvailable(s3, params) {
+  console.log("Looking for Bucket with params:", params);
   // Setup exponential backoff
   const operation = retry.operation({ minTimeout: 200, randomize: true });
   // Verify bucket exists
   return new Promise((resolve, reject) => {
-    operation.attempt(() => {
+    operation.attempt(attempts => {
+      console.log(
+        `Attempt ${attempts} to contact S3 bucket at ${new Date().toLocaleString()}...`
+      );
       s3.headBucket(params, (err, data) => {
         if (operation.retry(err)) return;
         if (err) reject(operation.mainError());
