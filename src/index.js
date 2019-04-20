@@ -1,30 +1,44 @@
 /* eslint-disable no-console */
 const execa = require("execa");
 const path = require("path");
-// const glob = require("@now/build-utils/fs/glob");
+const AWS = require("aws-sdk");
 const download = require("@now/build-utils/fs/download");
+const glob = require("@now/build-utils/fs/glob");
+const retry = require("retry");
 
+/**
+ * Hash the entry point to de-dupe builds.
+ */
 exports.analyze = ({ entrypoint, files }) => files[entrypoint].digest;
 
-exports.build = async ({ config, entrypoint, files, workPath }) => {
+/**
+ * Build.
+ *
+ * Make sure to set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+ * environment variables.  They are automatically picked up by the SDK.
+ *
+ * Set the bucket region with the build config or the AWS_REGION env var.
+ */
+exports.build = async ({ config = {}, entrypoint, files, workPath }) => {
+  // Setup S3 sdk
+  const region = config.region || process.env.AWS_REGION;
+  const s3 = new AWS.S3({ apiVersion: "2006-03-01", region });
+  const params = { Bucket: config.Bucket };
+
+  try {
+    // Wait for the bucket to be available.
+    // Allows time for a new bucket to be created if necessary
+    // through, e.g., Cloudformation or Terraform
+    const data = await bucketAvailable(s3, params);
+    console.log("Found bucket!", data);
+  } catch (error) {
+    console.error(error);
+  }
+
+  // Prepare working environment.
   const downloadedFiles = await download(files, workPath);
-
-  const { PATH, HOME } = process.env;
-
-  // Make sure your providers' config vars are secrets passed in as ENV vars.
-  // See https://zeit.co/docs/v2/deployments/environment-variables-and-secrets
-  const terraformEnv = {
-    ...process.env,
-    PATH: `${path.join(HOME)}:${PATH}`
-  };
-
-  const entrypointDirname = path.dirname(downloadedFiles[entrypoint].fsPath);
-
-  const setupEnv = {
-    env: terraformEnv,
-    cwd: entrypointDirname,
-    stdio: "inherit"
-  };
+  const entryPointDir = path.dirname(downloadedFiles[entrypoint].fsPath);
+  const setupEnv = { env: process.env, cwd: entryPointDir, stdio: "inherit" };
 
   console.log("Creating test file.");
   try {
@@ -48,6 +62,26 @@ exports.build = async ({ config, entrypoint, files, workPath }) => {
   }
 };
 
+/**
+ *  Make sure the bucket exists, or wait for it to be created.
+ *
+ * @param {*} s3
+ * @param {*} params
+ */
+async function bucketAvailable(s3, params) {
+  // Setup exponential backoff
+  const operation = retry.operation({ minTimeout: 200, randomize: true });
+  // Verify bucket exists
+  return new Promise((resolve, reject) => {
+    operation.attempt(() => {
+      s3.headBucket(params, (err, data) => {
+        if (operation.retry(err)) return;
+        if (err) reject(operation.mainError());
+        resolve(data);
+      });
+    });
+  });
+}
 // exports.prepareCache = async ({ cachePath, entrypoint, workPath }) => {
 //   console.log("preparing cache...");
 //   return {

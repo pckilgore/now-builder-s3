@@ -48,5 +48,9 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "dependencies": {
+    "aws-sdk": "^2.441.0",
+    "retry": "^0.12.0"
   }
 }
