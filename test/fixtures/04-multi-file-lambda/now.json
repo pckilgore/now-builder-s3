@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "build": {
+    "env": {
+      "AWS_ACCESS_KEY_ID": "@now_s3_iam_access_key",
+      "AWS_SECRET_ACCESS_KEY": "@now_s3_iam_secret_key",
+      "AWS_REGION": "us-east-2"
+    }
+  },
+  "builds": [
+    {
+      "src": "src/index.js",
+      "use": "@pckilgore/now-builder-s3",
+      "config": {
+        "Bucket": "now-builder-s3-test",
+        "lambda": { "name": "multi-file-lambda" },
+        "objectPath": "04-multi-file-lambda"
+      }
+    }
+  ]
+}

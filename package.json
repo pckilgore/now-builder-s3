@@ -1,25 +1,15 @@
 {
   "name": "@pckilgore/now-builder-s3",
-  "version": "0.2.1",
-  "description": "A now.sh builder that uploads arbitrary things to arbitrary S3 buckets.",
-  "main": "src/index.js",
-  "repository": "github.com/pckilgore/now-builder-s3",
-  "author": "Patrick C. Kilgore <git@pck.email>",
+  "description": "A now.sh builder that uploads files to S3. It can even build, zip, and upload lambda functions.",
+  "author": "Patrick C. Kilgore",
   "license": "MIT",
-  "private": false,
-  "publishConfig": {
-    "access": "public"
+  "bugs": {
+    "url": "https://github.com/pckilgore/now-builder-terraform/issues"
   },
-  "files": [
-    "src/index.js"
-  ],
-  "scripts": {
-    "lint": "eslint ./ --ignore-path .gitignore",
-    "lint-fix": "yarn run lint --fix",
-    "test": "jest"
-  },
-  "peerDependencies": {
-    "@now/build-utils": "^0.4.40"
+  "dependencies": {
+    "archiver": "^3.0.0",
+    "aws-sdk": "^2.441.0",
+    "retry": "^0.12.0"
   },
   "devDependencies": {
     "async-retry": "^1.2.3",
@@ -31,22 +21,60 @@
     "husky": "^1.3.1",
     "jest": "^24.7.1",
     "lint-staged": "^8.1.5",
+    "node-fetch": "^2.3.0",
     "prettier": "^1.17.0"
   },
+  "files": [
+    "src/index.js",
+    "src/utils.js"
+  ],
+  "homepage": "https://github.com/pckilgore/now-builder-s3",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
   },
+  "keywords": [
+    "ci",
+    "now",
+    "now.sh",
+    "now v2",
+    "zeit",
+    "builder",
+    "serverless",
+    "AWS",
+    "Simple Storage Service",
+    "S3",
+    "AWS lambda",
+    "lambda"
+  ],
   "lint-staged": {
+    "*.{css,scss,json,md}": [
+      "prettier --write",
+      "git add"
+    ],
     "*.{js,jsx}": [
       "prettier --write",
       "yarn run lint-fix",
       "git add"
-    ],
-    "*.{css,scss,json,md}": [
-      "prettier --write",
-      "git add"
     ]
-  }
+  },
+  "main": "src/index.js",
+  "peerDependencies": {
+    "@now/build-utils": "^0.4.40"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/github.com/pckilgore/now-builder-s3.git"
+  },
+  "scripts": {
+    "lint": "eslint ./ --ignore-path .gitignore",
+    "lint-fix": "yarn run lint --fix",
+    "test": "jest"
+  },
+  "version": "0.3.0"
 }
