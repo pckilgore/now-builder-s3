@@ -13,7 +13,8 @@
       "use": "@pckilgore/now-builder-s3",
       "config": {
         "Bucket": "now-builder-s3-test",
-        "lambda": { "name": "02-single-file-lambda" }
+        "lambda": { "name": "02-single-file-lambda" },
+        "objectPath": "02-single-file-lambda"
       }
     }
   ]

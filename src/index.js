@@ -20,19 +20,26 @@ exports.analyze = ({ entrypoint, files }) => files[entrypoint].digest;
  * Set the bucket region with the build config or the AWS_REGION env var.
  */
 exports.build = async ({
-  config = { lambda: false, objectPath: "" },
+  config: {
+    //Required config
+    Bucket,
+    // Optional args
+    objectPath = "",
+    region: configRegion,
+    lambda = false,
+    s3Params
+  },
   entrypoint,
   files,
   workPath
 }) => {
   // Setup S3 sdk
-  const region = config.region || process.env.AWS_REGION;
+  const region = configRegion || process.env.AWS_REGION;
   const s3 = new AWS.S3({ apiVersion: "2006-03-01", region });
-  const params = { Bucket: config.Bucket };
 
   // If we're uploading a lambda, download to a tmp folder for zipping.
   // If not, move all the files straight to the dist folder for upload.
-  const downloadPath = workPath + (config.lambda ? "/processing" : "/ready");
+  const downloadPath = workPath + (lambda ? "/processing" : "/ready");
 
   // Start download while we're waiting for our bucket.
   const downloadPromise = download(files, downloadPath);
@@ -41,8 +48,8 @@ exports.build = async ({
     // Wait for the bucket to be available via exponential backoff.
     // Allows time for a new bucket to be created if necessary in the same
     // deploy through, e.g., Cloudformation or Terraform
-    console.log(`Checking bucket ${config.Bucket} accessible and exists...`);
-    await bucketAvailable(s3, params);
+    console.log(`Checking bucket ${Bucket} accessible and exists...`);
+    await bucketAvailable(s3, { ...s3Params, Bucket });
     console.log("...success!");
 
     // Meanwhile...have we downloaded everything?
@@ -52,13 +59,16 @@ exports.build = async ({
   }
 
   // Prepare working environment.
-  if (config.lambda) {
-    console.log("detected lambda, compressing...");
-    const name = config.lambda.name;
-    !name && console.warn("Missing lambda name.  Using hash...");
+  if (lambda) {
+    console.log("Detected lambda, compressing...");
+    !lambda.name && console.warn("Missing lambda name.  Using hash...");
 
     try {
-      await zipFiles(downloadPath, name || `${files[entrypoint].digest}.zip`);
+      await zipFiles(
+        downloadPath,
+        lambda.name || `${files[entrypoint].digest}.zip`,
+        workPath + "/ready/"
+      );
     } catch (error) {
       console.error("There was an error compressing the file(s)", error);
     }
@@ -74,12 +84,14 @@ exports.build = async ({
       });
     });
     const relativePath = path.relative(workPath + "/ready", details.fsPath);
-    const resolvedPath = path.join(config.objectPath, relativePath);
-    console.log("using key", resolvedPath);
-    s3.putObject({ ...params, Key: resolvedPath, Body: data }, (err, res) => {
-      if (err) throw err;
-      console.log("success", res);
-    });
+    const resolvedPath = path.join(objectPath, relativePath);
+    s3.putObject(
+      { Bucket, ...s3Params, Key: resolvedPath, Body: data },
+      (err, res) => {
+        if (err) throw err;
+        console.log(`Uploaded ${objectPath} to S3 successfully`, res);
+      }
+    );
   });
 };
 

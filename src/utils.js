@@ -29,28 +29,34 @@ function ensureDirectoryExistence(filePath) {
  * @param {string} zipName the zip archive file name
  * @param {string=} outputDir output directory, defaults to `./ready/`
  */
-async function zipFiles(pathToZip, zipName, outputDir = "./ready/") {
-  console.log(pathToZip, zipName, outputDir);
-  const filesToZip = await glob("**", pathToZip);
-  const fileArray = Object.entries(filesToZip);
-  const archive = archiver("zip");
+function zipFiles(pathToZip, zipName, outputDir = "./ready/") {
+  const archive = new archiver("zip");
   const outputFilePath = outputDir + zipName + ".zip";
+  console.log(`Preparing to zip ${pathToZip} to ${outputFilePath}`);
 
+  console.log("Making sure directory exists...");
   ensureDirectoryExistence(outputFilePath);
-  const output = fs.createWriteStream(outputFilePath);
-
-  archive.pipe(output);
-
-  fileArray.forEach(([file, details]) => {
-    console.log("processing", file, details);
-    archive.append(fs.createReadStream(details.fsPath), { name: file });
-  });
+  console.log("...OK!");
 
   return new Promise((resolve, reject) => {
-    archive.finalize((err, written) => {
-      if (err) reject(err);
-      resolve({ outputFilePath, written });
+    console.log("Creating stream to output file...");
+    const output = fs.createWriteStream(outputFilePath);
+    archive.pipe(output);
+    console.log("...OK!");
+
+    // Process events...
+    archive.on("entry", entry => console.log("adding", entry.name));
+    archive.on("warning", err => console.warn(err));
+    archive.on("error", err => reject(err));
+    archive.on("finish", () => {
+      console.log(`...compression complete at ${new Date().toISOString()}.`);
+      resolve(outputFilePath);
     });
+
+    console.log(`Starting compression at ${new Date().toISOString()}...`);
+    archive.directory(pathToZip, false);
+
+    archive.finalize();
   });
 }
 
