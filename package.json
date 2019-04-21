@@ -11,7 +11,8 @@
     "access": "public"
   },
   "files": [
-    "src/index.js"
+    "src/index.js",
+    "src/utils.js"
   ],
   "scripts": {
     "lint": "eslint ./ --ignore-path .gitignore",
@@ -51,6 +52,7 @@
     ]
   },
   "dependencies": {
+    "archiver": "^3.0.0",
     "aws-sdk": "^2.441.0",
     "execa": "^1.0.0",
     "retry": "^0.12.0"
