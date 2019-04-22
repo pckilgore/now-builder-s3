@@ -76,5 +76,5 @@
     "lint-fix": "yarn run lint --fix",
     "test": "jest"
   },
-  "version": "0.3.0"
+  "version": "0.9.0"
 }
