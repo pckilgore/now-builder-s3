@@ -57,7 +57,7 @@ All files in the entry point's directory will be zipped (go ahead and deploy pyt
 
 `now.json`
 
-```json
+```jsonc
 {
   "version": 2,
   "build": {
@@ -101,7 +101,7 @@ If you set `config.lambda.build` to true, the builder will run your `scripts.now
 
 `now.json`
 
-```json
+```jsonc
 {
   "version": 2,
   "build": {
