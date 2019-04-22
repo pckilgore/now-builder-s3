@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "build": {
+    "env": {
+      "AWS_ACCESS_KEY_ID": "@now_s3_iam_access_key",
+      "AWS_SECRET_ACCESS_KEY": "@now_s3_iam_secret_key",
+      "AWS_REGION": "us-east-2"
+    }
+  },
+  "builds": [
+    {
+      "src": "./arbitrary-stuff/index.txt",
+      "use": "@pckilgore/now-builder-s3",
+      "config": {
+        "Bucket": "now-builder-s3-test",
+        "objectPath": "03-multi-file"
+      }
+    }
+  ]
+}
