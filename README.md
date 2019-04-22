@@ -1,4 +1,4 @@
-# now-builder-s3
+# :cyclone: now-builder-s3
 
 [![Status](https://travis-ci.com/pckilgore/now-builder-s3.svg?branch=master)](https://travis-ci.com/pckilgore/now-builder-s3)[![npm version](http://img.shields.io/npm/v/@pckilgore/now-builder-s3.svg?style=flat)](https://npmjs.org/package/@pckilgore/now-builder-s3 "View this project on npm")
 
@@ -8,7 +8,7 @@ Supports arbitary files, Buckets, and bucket paths.
 
 Compile, minify, and/or bundle your lambdas (or push them as is with dependiencies)!
 
-## The possibilities
+## Use Cases
 
 Handles:
 
@@ -22,13 +22,13 @@ Handles:
 
 See [these fixtures](test/fixtures/) for real-life examples!
 
-### Upload arbitary folder of stuff.
+### Upload arbitary folder of stuff
 
 **Note:** entry point must be a file, but the builder will upload _all files_ in the directory of the entry point.
 
 `now.json`
 
-```json
+```jsonc
 {
   "version": 2,
   "build": {
@@ -57,7 +57,7 @@ All files in the entry point's directory will be zipped (go ahead and deploy pyt
 
 `now.json`
 
-```json
+```jsonc
 {
   "version": 2,
   "build": {
@@ -101,7 +101,7 @@ If you set `config.lambda.build` to true, the builder will run your `scripts.now
 
 `now.json`
 
-```json
+```jsonc
 {
   "version": 2,
   "build": {
