@@ -1,4 +1,4 @@
-/*
+.terraform
 
-!/infrastructure/
-/infrastructure/.terraform/*
+src/
+test/
