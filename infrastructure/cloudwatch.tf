@@ -63,7 +63,7 @@ resource "aws_iam_user" "now_test_deploy_user" {
 
 resource "aws_iam_access_key" "now_test_deploy_user" {
   user    = "${aws_iam_user.now_test_deploy_user.name}"
-  pgp_key = "keybase:pckilgore"
+  pgp_key = "keybase:patrickkilgore"
 }
 
 resource "aws_iam_user_policy_attachment" "attach_policy_testing_user" {
