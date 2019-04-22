@@ -28,7 +28,7 @@ See [these fixtures](test/fixtures/) for real-life examples!
 
 `now.json`
 
-```json
+```jsonc
 {
   "version": 2,
   "build": {
