@@ -61,7 +61,7 @@ resource "aws_iam_user" "now_test_deploy_user" {
   }
 }
 
-resource "aws_iam_access_key" "now_test_deploy_user" {
+resource "aws_iam_access_key" "now_test_deploy_key" {
   user    = "${aws_iam_user.now_test_deploy_user.name}"
   pgp_key = "keybase:patrickkilgore"
 }
@@ -72,15 +72,10 @@ resource "aws_iam_user_policy_attachment" "attach_policy_testing_user" {
 }
 
 output "keys_encrypting_fingerprint" {
-  value = "${aws_iam_access_key.now_test_deploy_user.key_fingerprint}"
-}
-
-output "keys_secret" {
-  sensitive = true
-  value     = "${aws_iam_access_key.now_test_deploy_user.secret}"
+  value = "${aws_iam_access_key.now_test_deploy_key.key_fingerprint}"
 }
 
 output "keys_secret_enc" {
   sensitive = true
-  value     = "${aws_iam_access_key.now_test_deploy_user.encrypted_secret}"
+  value     = "${aws_iam_access_key.now_test_deploy_key.encrypted_secret}"
 }
