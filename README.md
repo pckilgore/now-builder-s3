@@ -8,7 +8,7 @@ Supports arbitary files, Buckets, and bucket paths.
 
 Compile, minify, and/or bundle your lambdas (or push them as is with dependiencies)!
 
-## The possibilities
+## Use Cases
 
 Handles:
 
@@ -22,7 +22,7 @@ Handles:
 
 See [these fixtures](test/fixtures/) for real-life examples!
 
-### Upload arbitary folder of stuff.
+### Upload arbitary folder of stuff
 
 **Note:** entry point must be a file, but the builder will upload _all files_ in the directory of the entry point.
 
