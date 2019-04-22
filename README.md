@@ -4,9 +4,9 @@
 
 Deploy your files and AWS lambdas to AWS S3 using now.sh builders.
 
-Supports arbitary files, Buckets, and bucket paths.
+Supports arbitrary files, Buckets, and bucket paths.
 
-Compile, minify, and/or bundle your lambdas (or push them as is with dependiencies)!
+Compile, minify, and/or bundle your lambdas (or push them as is with dependencies)!
 
 ## Use Cases
 
@@ -22,7 +22,7 @@ Handles:
 
 See [these fixtures](test/fixtures/) for real-life examples!
 
-### Upload arbitary folder of stuff
+### Upload arbitrary folder of stuff
 
 **Note:** entry point must be a file, but the builder will upload _all files_ in the directory of the entry point.
 
@@ -95,7 +95,7 @@ module.exports = () => 1;
 
 ### Upload a lambda (build before zipping/deploying)
 
-If you set a `package.json` file as the entry point, your dependiencies will be installed before compressing and uploading. (So your uploaded zip will contain all your node_modules!)
+If you set a `package.json` file as the entry point, your dependencies will be installed before compressing and uploading. (So your uploaded zip will contain all your node_modules!)
 
 If you set `config.lambda.build` to true, the builder will run your `scripts.now-build` script. It will then _only_ zip and upload the files in your `config.build.distDir` folder (defaults to `dist/` if not provided).
 
@@ -134,4 +134,4 @@ Import and compose, rather than duplicate, official builders.
 Let me know what your use cases are for this!
 
 Right now, I use it to deploy AWS lambdas that manage features now.sh cannot yet
-provide (cloudwatch, SNS, SQS, etc...).
+provide (Cloudwatch, SNS, SQS, etc...).

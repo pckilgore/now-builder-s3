@@ -2,6 +2,7 @@
   "name": "@pckilgore/now-builder-s3",
   "description": "A now.sh builder that uploads files to S3. It can even build, zip, and upload lambda functions.",
   "author": "Patrick C. Kilgore",
+  "version": "0.9.1",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/pckilgore/now-builder-terraform/issues"
@@ -75,6 +76,5 @@
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint-fix": "yarn run lint --fix",
     "test": "jest"
-  },
-  "version": "0.9.0"
+  }
 }
