@@ -1,4 +1,4 @@
-# now-builder-s3
+# :cyclone: now-builder-s3
 
 [![Status](https://travis-ci.com/pckilgore/now-builder-s3.svg?branch=master)](https://travis-ci.com/pckilgore/now-builder-s3)[![npm version](http://img.shields.io/npm/v/@pckilgore/now-builder-s3.svg?style=flat)](https://npmjs.org/package/@pckilgore/now-builder-s3 "View this project on npm")
 
