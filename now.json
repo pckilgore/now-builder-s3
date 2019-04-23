@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "build": {
+    "env": {
+      "TF_VAR_AWS_ACCESS_KEY_ID": "@opensource_terraform_ak",
+      "TF_VAR_AWS_SECRET_ACCESS_KEY": "@opensource_terraform_sk",
+      "AWS_ACCESS_KEY_ID": "@opensource_terraform_ak",
+      "AWS_SECRET_ACCESS_KEY": "@opensource_terraform_sk"
+    }
+  },
+  "builds": [
+    {
+      "src": "infrastructure/terraform.tf",
+      "use": "@pckilgore/now-terraform"
+    }
+  ]
+}
