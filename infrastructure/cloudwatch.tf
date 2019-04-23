@@ -75,7 +75,12 @@ output "keys_encrypting_fingerprint" {
   value = "${aws_iam_access_key.now_test_deploy_key.key_fingerprint}"
 }
 
-output "keys_secret_enc" {
+output "access_key" {
+  sensitive = true
+  value     = "${aws_iam_access_key.now_test_deploy_key.id}"
+}
+
+output "secret_key" {
   sensitive = true
   value     = "${aws_iam_access_key.now_test_deploy_key.encrypted_secret}"
 }
