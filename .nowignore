@@ -1,3 +1,4 @@
+.yarn-local-mirror
 .terraform
 
 src/

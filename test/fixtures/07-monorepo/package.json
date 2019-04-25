@@ -1,0 +1,14 @@
+{
+  "name": "07-monorepo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Patrick Kilgore",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "lerna": "^3.13.4"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
