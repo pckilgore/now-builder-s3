@@ -9,7 +9,7 @@ const archiver = require("archiver");
 
 /**
  * Don't write to nothing.  Can be replaced with mkdir({recursive: true}) when
- * node >- 10
+ * node >= 10
  *
  * @param {string} filePath
  */

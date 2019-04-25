@@ -52,6 +52,10 @@ exports.build = async ({
   // If not, move all the files straight to the ready folder for upload.
   const downloadPath = workPath + (lambda ? "/processing" : "/ready");
 
+  // Are we working in a subdirectory, e.g., monorepo?
+  const buildMountPoint = path.dirname(entrypoint);
+  const entrypointFsDirname = path.join(downloadPath, buildMountPoint);
+
   // Start download while we're waiting for our bucket.
   const downloadPromise = download(files, downloadPath);
 
@@ -72,19 +76,12 @@ exports.build = async ({
   // If your entry point is a package JSON, I assume you want to install stuff.
   if (lambda && path.basename(entrypoint) === "package.json") {
     console.log("Lambda has dependencies.  Installing...");
-    const mountpoint = path.dirname(entrypoint);
-    const entrypointFsDirname = path.join(downloadPath, mountpoint);
     await runNpmInstall(entrypointFsDirname, ["--prefer-offline"]);
     console.log("...done!");
 
     if (lambda.build) {
       console.log("Lambda requires build step...");
-      const distPath = path.join(
-        workPath,
-        "processing",
-        mountpoint,
-        (lambda && lambda.distDir) || "dist"
-      );
+      const distPath = path.join(entrypointFsDirname, lambda.distDir || "dist");
 
       try {
         if (await runPackageJsonScript(entrypointFsDirname, "now-build")) {
@@ -109,10 +106,10 @@ exports.build = async ({
   // Or just zip up the script and its deps.
   if (lambda && !lambda.build) {
     console.log("Compressing lambda...");
-    !lambda.name && console.warn("Missing lambda name.  Using hash...");
+    !lambda.name && console.warn("Missing lambda name.  Using digest...");
     try {
       await zipFiles(
-        downloadPath,
+        entrypointFsDirname,
         lambda.name || `${files[entrypoint].digest}.zip`,
         workPath + "/ready/"
       );
@@ -144,8 +141,7 @@ exports.build = async ({
 };
 
 exports.prepareCache = async ({ workPath, entrypoint, config }) => {
-
-  if (config.noCache) return
+  if (config.noCache) return;
 
   return {
     ...(path.basename(entrypoint) === "package.json" &&
