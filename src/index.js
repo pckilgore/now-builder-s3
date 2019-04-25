@@ -143,7 +143,10 @@ exports.build = async ({
   });
 };
 
-exports.prepareCache = async ({ workPath, entrypoint }) => {
+exports.prepareCache = async ({ workPath, entrypoint, config }) => {
+
+  if (config.noCache) return
+
   return {
     ...(path.basename(entrypoint) === "package.json" &&
       (await glob("processing/node_modules/**", workPath)))
