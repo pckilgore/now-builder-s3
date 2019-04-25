@@ -30,7 +30,6 @@ function ensureDirectoryExistence(filePath) {
  * @param {string=} outputDir output directory, defaults to `./ready/`
  */
 function zipFiles(pathToZip, zipName, outputDir = "./ready/") {
-  console.log("ZIPPING: ", pathToZip);
   const archive = new archiver("zip");
   const outputFilePath = outputDir + zipName + ".zip";
   console.log(`Preparing to zip ${pathToZip} to ${outputFilePath}`);

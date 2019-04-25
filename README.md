@@ -129,7 +129,7 @@ If you set `config.lambda.build` to true, the builder will run your `scripts.now
 
 ### A Note on Monorepo Support
 
-This repo was developed to support a lerna monorepo, and should work out of the box for this use case. However, if you use [lerna hoisting](https://github.com/lerna/lerna/blob/master/doc/hoist.md) or [yarn workspaces](https://yarnpkg.com/lang/en/docs/workspaces/), or link dependencies with `yarn link` or `npm link` you will not be able to deploy the node_module style lambda.
+This repo was developed to support a lerna monorepo, and should work out of the box for this use case. However, if you use [lerna hoisting](https://github.com/lerna/lerna/blob/master/doc/hoist.md) or [yarn workspaces](https://yarnpkg.com/lang/en/docs/workspaces/), or link dependencies with `yarn link` or `npm link` you will not be able to deploy the `node_module` style lambda.
 
 This is because the archiving library cannot currenly identify and resolve the hoisted node_modules:
 
